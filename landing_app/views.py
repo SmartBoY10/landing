@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth import login
 
 from .models import *
 from .forms import *
@@ -20,12 +20,25 @@ class RegisterUser(View):
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'You are succes signed up')
+            return redirect('home')
         else:
-            print("Qotaqbasss")
-        return redirect("/sign-in")
+            messages.error(request, 'Registration error')
+        return render(request, "landing_app/signup.html")
 
 
 class SignIn(View):
     def get(self, request):
+        return render(request, "landing_app/signin.html")
+
+
+class LoginUser(View):
+    def post(self, request):
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
         return render(request, "landing_app/signin.html")
