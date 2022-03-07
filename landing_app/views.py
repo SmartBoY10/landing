@@ -11,6 +11,16 @@ class IndexView(View):
         return render(request, "landing_app/index.html")
 
 
+class AboutView(View):
+    def get(self, request):
+        return render(request, "landing_app/about.html")
+
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, "landing_app/contact.html")
+
+
 class SignUp(View):
     def get(self, request):
         return render(request, "landing_app/signup.html")
