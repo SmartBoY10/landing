@@ -50,11 +50,15 @@ class LoginUser(View):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, 'You are succes logged in')
             return redirect('home')
+        else:
+            messages.error(request, 'Username or password incorrect')
         return render(request, "landing_app/signin.html")
 
 
 class LogoutUser(View):
     def get(self, request):
         logout(request)
+        messages.info(request, 'You are logged out')
         return redirect('home')
