@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 from .models import *
 from .forms import *
@@ -52,3 +52,9 @@ class LoginUser(View):
             login(request, user)
             return redirect('home')
         return render(request, "landing_app/signin.html")
+
+
+class LogoutUser(View):
+    def get(self, request):
+        logout(request)
+        return redirect('home')
